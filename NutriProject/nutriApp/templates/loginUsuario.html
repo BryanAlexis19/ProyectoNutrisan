@@ -1,0 +1,122 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>Nutrisan App</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+
+    <link
+        href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900%7COpen+Sans:300,300i,400,400i,600,600i,700,700i&amp;subset=cyrillic"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/ionicons.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/jquery.formstyler.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/flexslider.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/jquery.fancybox.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/ion.rangeSlider.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/jquery.mThumbnailScroller.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/chosen.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/elements.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/media.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/elements-media.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/nutriStyle.css' %}">
+
+</head>
+
+<body>
+    <div id="page" class="site">
+
+        <div class="container-fluid page-styling site-header-before" id="UPSIDE">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="links_list links_list-align-center align-center-desktop topbar-contacts">
+                        <li>
+                            <p class="links_list-value">
+                                <a href="#" id="main-title">SISTEMA DE GESTION DE CONSULTA NUTRICIONAL</a>
+                            </p>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="site-header ">
+
+            <div class="col-sm-12 col-md-4 widget align-center-tablet f-logo-wrap">
+                <a href="#" class="f-logo">
+                    <img src="{% static 'assets/img/logo2.png' %}" alt="">
+                </a>
+            </div>
+
+        </div>
+
+        <div id="content" class="site-content">
+            <div id="primary" class="content-area width-normal">
+                <main id="main" class="site-main">
+                    <div class="cont maincont">
+
+                        <article class="page-cont">
+                            <div class="page-styling">                                
+                                <div class="auth-wrap jcenter">
+                                    <div class="auth-col">
+                                        <h2 class="centrar-text">INGRESO AL SISTEMA</h2>
+                                        <form method="post" class="login" action={% url 'nutriApp:loginUsuario' %}>
+                                            {% csrf_token %}
+                                            <p class="centrar-text bold-text blue-color">
+                                                <label for="usuario">Nombre de usuario<span
+                                                        class="required"></span></label>
+                                                <input type="text" name="usuario" id="usuario"
+                                                    placeholder="Ingrese nombre de usuario">
+                                            </p>
+                                            <p class="centrar-text bold-text blue-color">
+                                                <label for="clave">Clave<span class="required"></span></label>
+                                                <input type="password" name="clave" id="clave"
+                                                    placeholder="Ingrese clave">
+                                            </p>
+                                            <div style="color:red; font-weight: bolder" class="centrar-text" role="alert">
+                                                {{error}}
+                                            </div>
+                                            <p class="auth-submit jcenter">
+                                                <input type="submit" value="Iniciar Sesion">
+                                                <input type="checkbox" id="rememberme" value="forever">
+                                            </p>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </main><!-- #main -->
+            </div><!-- #primary -->
+        </div><!-- #content -->
+
+        <div class="container-fluid blog-sb-widgets page-styling site-footer">
+            
+                <div class="col-sm-12 col-md-4 widget align-center-tablet f-logo-wrap">
+                    <p>NUTRISAN REGION LIMA </p>
+                    <p>2022 - Todos los derechos reservados® </p>
+                </div>
+            
+        </div>
+
+    </div><!-- #page -->
+
+    <script src="{% static 'assets/js/jquery-1.12.4.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery-plugins.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+
+</html>

@@ -39,6 +39,7 @@ class Paciente(models.Model):
         ('Padre', 'Padre'),
         ('Madre', 'Madre'),
         ('Hijo(a)', 'Hijo(a)'),
+        ('Esposo(a)', 'Esposo(a)'),
         ('Abuelo(a)', 'Abuelo(a)'),
         ('Otro', 'Otro'),
     )
@@ -51,7 +52,7 @@ class Paciente(models.Model):
     # edad = models.IntegerField() #Solo en vista
     telefono = models.CharField(max_length=9, blank=True, null=True)
     domicilio = models.CharField(max_length=200, null=False, blank=False)
-    genero = models.CharField(max_length=1, choices=GENEROS)
+    genero = models.CharField(max_length=1, choices=GENEROS, null=False, blank=False)
     email = models.EmailField(null=True, blank=True)
     grado_instruccion = models.CharField(max_length=50, choices=GRADO_INSTRUCC, null=False, blank=False)
     tipo_seguro = models.CharField(max_length=50, choices=TIPO_SEG, null=False, blank=False)
@@ -61,7 +62,7 @@ class Paciente(models.Model):
     grupo_etnico = models.CharField(max_length=50, null=True, blank=True)
     acompaniante_nombre = models.CharField(max_length=200, blank=True, null=True)
     acompaniante_doc_identidad = models.CharField(8, blank=True, null=True, default=''), 
-    companiante_parentezco = models.CharField(max_length=50, choices=PARENT, blank=True, null=True)
+    acompaniante_parentezco = models.CharField(max_length=50, choices=PARENT, blank=True, null=True)
     fecha_registro = models.DateTimeField(auto_now_add=True)
     estado_registro = models.BooleanField(default=True)
 
@@ -129,28 +130,34 @@ class Categoria_alimento(models.Model):
         return self.nombre_categoria
 
 class Alimento(models.Model):
+    codigo_alimento = models.CharField(max_length=6, primary_key=True, null=False, blank=False)
     categoria_alimento = models.ForeignKey(Categoria_alimento, on_delete=RESTRICT)
     nombre_alimento = models.CharField(max_length=50, null=False, blank=False)
     energ = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
     agua = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
     prot_t = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
-    prot_a = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
-    prot_v = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
+    #prot_a = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
+    #prot_v = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
     grasa_t = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
-    grasa_a = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
-    grasa_v = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
+    #grasa_a = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
+    #grasa_v = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
     carboh = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
     fib = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
     calc = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
     fosf = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
+    zinc = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
     hier = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
-    reti = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
+    b_carot = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
+    vit_a = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
+    #reti = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
     tiam = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
     ribo = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
     niac = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
     vit_c = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
+    aci_fol = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
     sodio = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
     potas = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)    
+    
     def __str__(self):
         return self.nombre_alimento
 

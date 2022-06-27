@@ -1,0 +1,181 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Nutrisan App</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900%7COpen+Sans:300,300i,400,400i,600,600i,700,700i&amp;subset=cyrillic" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/ionicons.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/jquery.formstyler.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/flexslider.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/jquery.fancybox.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/ion.rangeSlider.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/jquery.mThumbnailScroller.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/chosen.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/elements.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/media.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/elements-media.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/nutriStyle.css' %}">
+    
+</head>
+<body>
+<div id="page" class="site header-sticky">
+
+
+    <div class="container-fluid page-styling site-header-before" id="UPSIDE">
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="links_list links_list-align-center align-center-desktop topbar-contacts">
+                    <li>
+                        <p class="links_list-value">
+                            <a href="{% url 'nutriApp:index' %}" id="main-title">SISTEMA DE GESTION DE CONSULTA NUTRICIONAL</a>                            
+                        </p>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="site-header ">
+
+        <p class="h-logo">
+            <a href="{% url 'nutriApp:index' %}"><img src="{% static 'assets/img/logo2.png' %}" alt="Logo-Nutrisan"></a>
+        </p><!--
+    No Space
+    --><div class="h-shop">
+
+        <ul class="h-shop-links">
+            
+            <li class="h-shop-icon h-profile">
+                <a href="#" title="My Account">
+                    <i class="ion-android-person"></i>
+                </a>                
+                <ul class="h-profile-links">                    
+                    <li><a href="{% url 'nutriApp:logoutUsuario' %}">Cerrar Sesión</a></li>                    
+                </ul>
+            </li>    
+            Bienvenido(a): {{usuario.first_name}} {{usuario.last_name}}
+            <li class="h-menu-btn" id="h-menu-btn">
+                
+                <i class="ion-navicon"></i>
+            </li>
+        </ul>
+    </div><!--
+    No Space
+    --><div class="mainmenu">
+
+        <nav id="h-menu" class="h-menu">
+            <ul>
+                <!-- <li class="menu-item active">
+                    <a href={% url 'nutriApp:index' %}>Inicio</a>
+                    <ul class="sub-menu">
+                    </ul>
+                </li> -->
+                <li class="menu-item-has-children">
+                    <a href="#">Consulta Nutricional</a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="{% url 'nutriApp:registrarDiagnostico' %}">Realizar nuevo Diagnóstico</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'nutriApp:verDiagnosticos' %}">Ver Diagnósticos</a>
+                        </li>                     
+                    </ul>
+                </li>
+                <li class="menu-item-has-children">
+                    <a href="#">Pacientes</a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="{% url 'nutriApp:registrarPaciente' %}">Registrar nuevo Paciente</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'nutriApp:verTodoPacientes' %}">Ver mis Pacientes</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item-has-children">
+                    <a href="#">Calculadora nutricional</a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="#">Abrir Nutrimática</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'nutriApp:verTodoAlimentos' %}">Ver alimentos</a>
+                        </li>
+                    </ul>
+                </li>
+                
+            </ul>
+        </nav>
+
+    </div><!--
+    No Space
+--></div>
+
+{% block content %}
+{% endblock %}
+
+            </div><!-- .maincont.page-styling.page-full -->
+        </main><!-- #main -->
+    </div><!-- #primary -->    </div><!-- #content -->
+
+    <div class="container-fluid blog-sb-widgets page-styling site-footer">
+        <div class="row">
+            <div class="col-sm-12 col-md-4 widget align-center-tablet f-logo-wrap">
+                <a href="{% url 'nutriApp:index' %}" class="f-logo">
+                    <img src="{% static 'assets/img/logo2.png' %}" alt="">
+                </a>
+                <p>2022 - Todos los derechos reservados® </p>
+            </div>
+            <div class="col-xs-6 col-sm-3 col-md-2 align-center-mobile widget">
+                <h3 class="widgettitle">Plataforma</h3>
+                <ul class="menu">
+                    <li>
+                        <a href="#">Inicio</a>
+                    </li>
+                    <li>
+                        <a href="http://127.0.0.1:8000/admin/login/?next=/admin/">Panel de administracion</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xs-6 col-sm-3 col-md-2 align-center-mobile widget">
+                <h3 class="widgettitle">Nosotros</h3>
+                <ul class="menu">
+                    <li>
+                        <a href="#">Contacto</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xs-6 col-sm-3 col-md-2 align-center-mobile widget">
+                <h3 class="widgettitle">Mas</h3>
+                <ul class="menu">
+                    <li>
+                        <a href="#UPSIDE">Volver arriba</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+</div><!-- #page -->
+
+<script src="{% static 'assets/js/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery-plugins.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
+<script src="{% static 'assets/js/miScript.js' '%}"></script>
+
+</body>
+</html>

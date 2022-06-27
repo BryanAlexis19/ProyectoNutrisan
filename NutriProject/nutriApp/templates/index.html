@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="content" class="site-content"><div id="primary" class="content-area width-full">
+    <main id="main" class="site-main">
+        <div class="maincont page-styling page-full">
+
+
+            <div class="heroblock" style="background-image: url(https://res.cloudinary.com/badea21/image/upload/v1655514436/20220430_144827_cpy8x6.jpg);">
+                <p class="heroblock-subttl"><a href="#">INSPIRA UP</a></p>
+                <h3 class="heroblock-ttl">JOVENES POR LA NUTRICION</h3>
+                <a href="#OPTIONS" class="btn">Comenzar Ahora</a>
+            </div> 
+
+            <div class="page-styling row-wrap-full align-center front-title-block" id="OPTIONS">
+                <h2>{{usuario.first_name}}, aquí tus opciones</h2>
+
+            </div>            
+
+            <div class="container page-styling row-wrap-container row-wrap-nottl">
+                <div class="row">
+                    <div class="cf-lg-6 col-sm-6">
+                        <div class="mb30 iconbox-item iconbox-i-4">
+                            <div class="iconbox-i-top">
+                                <p class="iconbox-i-img">
+                                    <i class="fa fa-heart"></i>
+                                </p>
+                                <h3><a href="#">RELIZAR NUEVO DIAGNÓSTICO</a></h3>
+                            </div>
+                            <p>Realize el registro de un diagnóstico durante su consulta nutricional.</p>
+                        </div>
+                        <div class="mb30 iconbox-item iconbox-i-4">
+                            <div class="iconbox-i-top">
+                                <p class="iconbox-i-img">
+                                    <i class="fa fa-plus-circle"></i>
+                                </p>
+                                <h3><a href="{% url 'nutriApp:registrarPaciente' %}">REGISTRAR NUEVO PACIENTE</a></h3>
+                            </div>
+                            <p>Registre a un paciente nuevo en su consultorio.</p>
+                        </div>
+                    </div>
+                    <div class="cf-lg-6 col-sm-6">
+                        <div class="mb30 iconbox-item iconbox-i-4">
+                            <div class="iconbox-i-top">
+                                <p class="iconbox-i-img">
+                                    <i class="fa fa-star"></i>
+                                </p>
+                                <h3><a href="#">ABRIR NUTRIMATICA</a></h3>
+                            </div>
+                            <p>Abrir la herramienta para realizar el cálculo del valor nutricional de los alimentos.</p>
+                        </div>
+                        <div class="mb30 iconbox-item iconbox-i-4">
+                            <div class="iconbox-i-top">
+                                <p class="iconbox-i-img">
+                                    <i class="fa fa-check"></i>
+                                </p>
+                                <h3><a href="#">VER DIAGNOSTICOS</a></h3>
+                            </div>
+                            <p>Visualize los diagnóstico que ya han sido registrados</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div><!-- .maincont.page-styling.page-full -->
+    </main><!-- #main -->
+</div><!-- #primary -->    </div><!-- #content -->
+
+
+
+</div><!-- #page -->
+{% endblock %}

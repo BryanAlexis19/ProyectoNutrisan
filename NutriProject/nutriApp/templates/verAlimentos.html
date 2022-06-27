@@ -1,0 +1,116 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div id="content" class="site-content"><div id="primary" class="content-area width-normal">
+    <main id="main" class="site-main">
+        <div class="cont maincont">
+            <h1 class="maincont-ttl">Ver alimentos</h1>
+            <ul class="b-crumbs">
+                <li><a href="{% url 'nutriApp:index' %}">Inicio</a></li>
+                <li>Ver alimentos</li>
+            </ul>                                                <article class="page-cont">
+            <div class="page-styling">
+                <div style="color:red; font-weight: bolder" role="alert">
+                    {{error}}
+                </div>
+                <div style="color: blue; font-weight: bolder" class="centrar-text" role="alert">
+                    {{success}}
+                </div>
+                <div class="auth-wrap page-styling">
+                    <div class="container-fluid">
+                        <!-- <h2>Buscar por DNI</h2> -->
+                        <form method="post" action={% url 'nutriApp:buscarCodigoAlim' %} class="container-fluid prod-items auth-col">
+                            {% csrf_token %}
+                            <p>
+                                <label for="dni">Codigo del Alimento</>
+                                <input type="text" name="codigo_alimento" id="codigo_alimento" maxlength="6"
+                                placeholder="Busque por codigo">
+                                <input type="submit" value="🔍 &nbsp; Buscar ">
+                            </p>                                                                                                                                                           
+                        </form>
+                        <form method="post" action={% url 'nutriApp:buscarNombreAlim' %} class="container-fluid row auth-col">
+                            {% csrf_token %}
+                            <p>
+                                <label for="nombre_alimento">Nombre del Alimento</label>
+                                <input type="text" name="nombre_alimento" id="nombre_alimento" placeholder="Busque por nombre">
+                                <input type="submit" value="🔍 &nbsp; Buscar">
+                            </p>                                                                                                                                                             
+                        </form>
+                        <form method="post" action={% url 'nutriApp:verTodoAlimentos' %} class="container-fluid row auth-col">
+                            {% csrf_token %}
+                            <p>                                
+                                <input type="submit" value="🔍 &nbsp; Ver todos los alimentos">
+                            </p>                                                                                                                                                             
+                        </form>
+                        
+                    </div>
+                    <!-- TABLA DE PACIENTES -->
+                    <div class="wccm-compare-table">
+                        <div class="wccm-thead">
+                            <div class="wccm-tr">
+                                <div class="wccm-th"></div>
+                                <div class="wccm-table-wrapper">
+                                    <table class="wccm-table">
+                                        <tr>
+                                            <td class="wccm-td">                                                
+                                                <div>
+                                                    <a href="#"></a>
+                                                </div>
+                                                <div class="price">Código</div>
+                                            </td>
+                                            <td class="wccm-td">                                                
+                                                <div>
+                                                    <a href="#"></a>
+                                                </div>
+                                                <div class="price">Categoria</div>
+                                            </td>
+                                            <td class="wccm-td">                                                
+                                                <div>
+                                                    <a href="#"></a>
+                                                </div>
+                                                <div class="price"></div>
+                                            </td>
+                                            <td class="wccm-td">                                            
+                                                <div>
+                                                    <a href="#"></a>
+                                                </div>
+                                                <div class="price"></div>
+                                            </td>
+                                        <tr>                                            
+                                    </table>                                    
+                                </div>                                
+                            </div>                            
+                        </div>                        
+                        <div class="wccm-tbody">                            
+                            {% for ali in alimentos %}                            
+                            <div class="wccm-tr">
+                                <div class="wccm-th bold-text blue-color">{{ ali.nombre_alimento }}</div>
+                                <div class="wccm-table-wrapper">
+                                    <table class="wccm-table">                                        
+                                            <tr>                                                                                       
+                                                <td class="wccm-td"><p>{{ ali.codigo_alimento }}</p></td>
+                                                <td class="wccm-td"><p>{{ ali.categoria_alimento }}</p></td>                                                
+                                                <td class="wccm-td"><p><a href="{% url 'nutriApp:actualizarAlimento' ali.codigo_alimento %}">Ver Alimento</a></p></td>
+                                                <td class="wccm-td"><p><a href="{% url 'nutriApp:eliminarAlimento' ali.codigo_alimento %}">Eliminar</a></p></td>
+                                            </tr>                                                                                    
+                                    </table>
+                                </div>
+                            </div>
+                            {% endfor %}                            
+                        </div>
+                    </div>
+
+                        <!-- BOTON REGRESAR -->
+                        <p class="auth-submit cf-sm-6 cf-md-6 cf-lg-6 col-xs-6 col-sm-6 col-md-6 col-lg-6 sectgl-item">
+                            <button type="button" class="btn-style"><a href="{% url 'nutriApp:index' %}">⬅️</a>&nbsp;Regresar</button>
+                        </p>
+                        <p class="auth-submit cf-sm-6 cf-md-6 cf-lg-6 col-xs-6 col-sm-6 col-md-6 col-lg-6 sectgl-item">
+                            <button type="button" class="btn-style"><a href="{% url 'nutriApp:registrarAlimento' %}">⬅️</a>&nbsp;Nuevo</button>
+                        </p>
+                    </div>                   
+                </div>
+            </div>
+        </article>
+        </div>
+    </main><!-- #main -->
+</div><!-- #primary -->    </div><!-- #content -->
+{% endblock %}
