@@ -89,7 +89,7 @@
                                             <tr>                                                                                       
                                                 <td class="wccm-td"><p>{{ ali.codigo_alimento }}</p></td>
                                                 <td class="wccm-td"><p>{{ ali.categoria_alimento }}</p></td>                                                
-                                                <td class="wccm-td"><p><a href="{% url 'nutriApp:actualizarAlimento' ali.codigo_alimento %}">Ver Alimento</a></p></td>
+                                                <td class="wccm-td"><p><a href="{% url 'nutriApp:cargarAlimento' ali.codigo_alimento %}">Ver Alimento</a></p></td>
                                                 <td class="wccm-td"><p><a href="{% url 'nutriApp:eliminarAlimento' ali.codigo_alimento %}">Eliminar</a></p></td>
                                             </tr>                                                                                    
                                     </table>

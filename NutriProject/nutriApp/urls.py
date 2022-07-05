@@ -16,8 +16,8 @@ urlpatterns = [
     #----------------------------------------------------PACIENTE----------------------------------------------------
     path('verPacientes', views.verPacientes, name="verPacientes"),
     path('verTodoPacientes', views.verTodoPacientes, name="verTodoPacientes"),
-    # path('actualizarPaciente', views.actualizarPaciente, name="actualizarPacinete"),
-    # path('actualizarPaciente/<int:DNI>', views.actualizarAlimento, name="actualizarAlimento"),
+    path('actualizarPaciente', views.actualizarPaciente, name="actualizarPacinete"),
+    path('cargarPaciente/<str:dni>', views.cargarPaciente, name="cargarPaciente"),
     path('registrarPaciente', views.registrarPaciente, name="registrarPaciente"),    
     
     #----------------------------------------------------DIAGNOSTICO-------------------------------------------------    
@@ -27,9 +27,8 @@ urlpatterns = [
     #----------------------------------------------------ALIMENTO---------------------------------------------------
     path('verAlimentos', views.verAlimentos, name="verAlimentos"),
     path('verTodoAlimentos', views.verTodoAlimentos, name="verTodoAlimentos"),
-    path('registrarAlimento', views.registrarAlimento, name="registrarAlimento"),
-    path('actualizarAlimento', views.actualizarAlimento, name="actualizarAlimento"),
-    path('actualizarAlimento/<str:codigo_alimento>', views.actualizarAlimento, name="actualizarAlimento"),    
+    path('registrarAlimento', views.registrarAlimento, name="registrarAlimento"),    
+    path('cargarAlimento/<str:codigo_alimento>', views.cargarAlimento, name="cargarAlimento"),    
     path('actualizarAlimentoCod', views.actualizarAlimentoCod, name="actualizarAlimentoCod"),
     path('eliminarAlimento/<str:codigo_alimento>', views.eliminarAlimento, name="eliminarAlimento"),                
     path('buscarCodigoAlim', views.buscarCodigoAlim, name="buscarCodigoAlim"),

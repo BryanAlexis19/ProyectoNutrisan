@@ -132,8 +132,21 @@ def registrarPaciente(request):
             return render(request, 'registrarPaciente.html', context)                        
     return render(request, 'registrarPaciente.html')
 
-def actualizarPaciente(request):
-    return render(request, 'actualizarPaciente.html')
+#Cargar el paciente en la pantalla de actualizar paciente
+def cargarPaciente(request,dni):
+    try:
+        #Crear un objeto del modelo pacientes
+        updPac = Paciente.objects.get(doc_identidad_pac=dni)
+        context = {
+            'paciente': updPac,
+        }
+        return render(request, 'actualizarPaciente.html', context)
+    except Exception as e:
+        #Crear mensaje de error
+        context = {
+            'error' : 'Error al cargar paciente:' + str(e),
+        }
+        return render(request, 'verPacientes.html', context)
 
 
 #-----------VISTAS DEL DIAGNOSTICO-----------------
@@ -164,8 +177,6 @@ def verTodoAlimentos(request):
             'error': 'Error al obtener los alimentos: ' + str(e)
         }
         return render(request, 'verAlimentos.html', context)
-
-    
 
 
 def registrarAlimento(request):
@@ -221,7 +232,8 @@ def registrarAlimento(request):
             return render(request, 'registrarAlimento.html', context)
     return render(request, 'registrarAlimento.html', context)
 
-def actualizarAlimento(request, codigo_alimento):
+#Cargar el alimento en la pantalla de actualizar alimento
+def cargarAlimento(request, codigo_alimento):
     try:
         #Crear un objeto del modelo alimento con el cod enviado
         updAli = Alimento.objects.get(codigo_alimento=codigo_alimento)
