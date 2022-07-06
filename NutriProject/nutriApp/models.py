@@ -61,7 +61,7 @@ class Paciente(models.Model):
     estado_civil = models.CharField(max_length=50, choices=EST_CIVIL, null=True, blank=True, default='Soltero')
     grupo_etnico = models.CharField(max_length=50, null=True, blank=True)
     acompaniante_nombre = models.CharField(max_length=200, blank=True, null=True)
-    acompaniante_doc_identidad = models.CharField(8, blank=True, null=True, default=''), 
+    acompaniante_doc_identidad = models.CharField(max_length=8, blank=True, null=True)
     acompaniante_parentezco = models.CharField(max_length=50, choices=PARENT, blank=True, null=True)
     fecha_registro = models.DateTimeField(auto_now_add=True)
     estado_registro = models.BooleanField(default=True)

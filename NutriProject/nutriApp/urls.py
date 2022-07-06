@@ -18,7 +18,10 @@ urlpatterns = [
     path('verTodoPacientes', views.verTodoPacientes, name="verTodoPacientes"),
     path('actualizarPaciente', views.actualizarPaciente, name="actualizarPacinete"),
     path('cargarPaciente/<str:dni>', views.cargarPaciente, name="cargarPaciente"),
+    path('actualizarPacienteCod', views.actualizarPacienteCod, name="actualizarPacienteCod"),
     path('registrarPaciente', views.registrarPaciente, name="registrarPaciente"),    
+    path('buscarDniPac', views.buscarDniPac, name="buscarDniPac"),
+    path('buscarApellidoPac', views.buscarApellidoPac, name="buscarApellidoPac"),
     
     #----------------------------------------------------DIAGNOSTICO-------------------------------------------------    
     path('registrarDiagnostico', views.registrarDiagnostico, name="registrarDiagnostico"),

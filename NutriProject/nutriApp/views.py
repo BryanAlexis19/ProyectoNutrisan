@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render, redirect
 from .models import Paciente, Trabajador, Diagnostico, Categoria_alimento, Alimento
 from django.contrib.auth.models import User
@@ -92,7 +93,7 @@ def registrarPaciente(request):
             newPac.apellido_paterno = request.POST['apellido_p']
             newPac.apellido_materno = request.POST['apellido_m']
             newPac.nombre = request.POST['nombre']
-            newPac.fecha_nacimiento = request.POST['fecha_nac']
+            newPac.fecha_nacimiento = request.POST['fecha_nac']            
             newPac.lugar_nacimiento = request.POST['lugar_nac']
             newPac.telefono = request.POST['telefono']
             newPac.domicilio = request.POST['domicilio']
@@ -109,13 +110,12 @@ def registrarPaciente(request):
             if 'acomp_parent' in request.POST:
                 newPac.acompaniante_parentezco = request.POST['acomp_parent']
             else:
-                newPac.acompaniante_parentezco = ""                
-            
+                newPac.acompaniante_parentezco = ""                            
             if 'estado_reg' in request.POST:
                 newPac.estado_registro = True
             else:
                 newPac.estado_registro = False
-            #Guardamos el objeto en la base de datos
+            #Guardamos el objeto en la base de datos                       
             newPac.save(force_insert=True)
                 #Crear un mensaje de exito
             context = {
@@ -137,6 +137,7 @@ def cargarPaciente(request,dni):
     try:
         #Crear un objeto del modelo pacientes
         updPac = Paciente.objects.get(doc_identidad_pac=dni)
+        updPac.fecha_nacimiento = str(updPac.fecha_nacimiento)
         context = {
             'paciente': updPac,
         }
@@ -148,6 +149,106 @@ def cargarPaciente(request,dni):
         }
         return render(request, 'verPacientes.html', context)
 
+def actualizarPacienteCod(request):
+    if request and request.method == 'POST':
+        try:
+            #Crear un objeto del modelo pacientes
+            updPac = Paciente()
+            #Obtenemos los datos del formulario y seteamos los atributos
+            updPac.doc_identidad_pac = request.POST['dni']
+            updPac.apellido_paterno = request.POST['apellido_p']
+            updPac.apellido_materno = request.POST['apellido_m']
+            updPac.nombre = request.POST['nombre']
+            updPac.fecha_nacimiento = request.POST['fecha_nac']            
+            updPac.lugar_nacimiento = request.POST['lugar_nac']
+            updPac.telefono = request.POST['telefono']
+            updPac.domicilio = request.POST['domicilio']
+            updPac.genero = request.POST['genero']
+            updPac.email = request.POST['email']
+            updPac.grado_instruccion = request.POST['grado_in']
+            updPac.tipo_seguro = request.POST['tipo_seg']
+            updPac.religion = request.POST['religion']
+            updPac.ocupacion = request.POST['ocupacion']
+            updPac.estado_civil = request.POST['estado_civ']
+            updPac.grupo_etnico = request.POST['grupo_et']
+            updPac.acompaniante_nombre = request.POST['acomp_nombre']
+            updPac.acompaniante_doc_identidad = request.POST['acomp_dni']
+
+            updPac.acompaniante_parentezco = request.POST['acomp_parent']
+
+            if 'estado_reg' in request.POST:
+                updPac.estado_registro = True
+            else:
+                updPac.estado_registro = False
+            now = datetime.now()
+            #nowStr = now.strftime("%Y-%m-%d %H:%M:%S")
+            print(now)
+            updPac.fecha_registro= now
+            #Guardamos el objeto en la base de datos  
+            updPac.save(force_update=True)
+            #crear un objeto de todos los pacientes
+            objPacientes = Paciente.objects.all()
+            #Crear un mensaje de exito y mostrar todos los pacientes
+            context = {
+                'success' : (f"Paciente: {updPac.nombre} {updPac.apellido_paterno} registrado correctamente"),
+                'pacientes' : objPacientes
+            }
+            return render(request, 'verPacientes.html', context)
+        except Exception as e:
+            #Crear un mensaje de error
+            context = {
+                'error' : 'Error al actualizar paciente: ' + str(e),
+                'paciente': updPac
+            }
+            return render(request, 'actualizarPaciente.html', context)
+    return render(request, 'actualizarPaciente.html')
+
+def buscarDniPac(request):
+    lstPaciente = []
+    try:
+        if request and request.method == 'POST':
+            if 'dni' in request.POST and request.POST['dni'] != '':
+                objPaciente = Paciente.objects.get(doc_identidad_pac=request.POST['dni'])
+                lstPaciente.append(objPaciente)
+                context = {
+                    'pacientes' : lstPaciente
+                }
+                return render(request, 'verPacientes.html', context)
+            else:
+                context = {
+                    'error' : 'Paciente buscado no existe'
+                }
+                return render(request, 'verPacientes.html', context)
+    except Exception as e:
+        context = {
+            'error' : 'Error al buscar paciente: ' + str(e)
+        }
+        return render(request, 'verPacientes.html', context)
+    return render(request, 'verPacientes.html')
+
+def buscarApellidoPac(request):
+    lstPaciente = []
+    try:
+        if request and request.method == 'POST':
+            if 'apellido_p' in request.POST and request.POST['apellido_p'] != '':
+                objPaciente = Paciente.objects.filter(apellido_paterno=request.POST['apellido_p'])
+                for pac in objPaciente:
+                    lstPaciente.append(pac)
+                context = {
+                    'pacientes' : lstPaciente
+                }
+                return render(request, 'verPacientes.html', context)
+            else:
+                context = {
+                    'error' : 'Paciente buscado no existe'
+                }
+                return render(request, 'verPacientes.html', context)
+    except Exception as e:
+        context = {
+            'error' : 'Error al buscar paciente: ' + str(e)
+        }
+        return render(request, 'verPacientes.html', context)
+    return render(request, 'verPacientes.html')
 
 #-----------VISTAS DEL DIAGNOSTICO-----------------
 def registrarDiagnostico(request):
@@ -290,7 +391,7 @@ def actualizarAlimentoCod(request):
             updAli.potas = request.POST['potas']
             #Guardar el contenido del objeto en la base de datos
             updAli.save(force_update=True)
-            #Crear un objeto qcon todos los alimentos
+            #Crear un objeto con todos los alimentos
             objAlimento = Alimento.objects.all()
             #Crear un mensaje de exito
             context = {
@@ -306,8 +407,7 @@ def actualizarAlimentoCod(request):
                 'ali': updAli,
                 'categoria_alimento': lstCategorias
             }
-            return render(request, 'actualizarAlimento.html', context)
-    
+            return render(request, 'actualizarAlimento.html', context)    
     return render(request, 'registrarAlimento.html', context)
 
 def eliminarAlimento(request, codigo_alimento):

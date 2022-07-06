@@ -19,7 +19,7 @@
                 <div class="auth-wrap page-styling">
                     <div class="container-fluid">
                         <!-- <h2>Buscar por DNI</h2> -->
-                        <form method="post" action={% url 'nutriApp:verTodoPacientes' %} class="container-fluid prod-items auth-col">
+                        <form method="post" action="{% url 'nutriApp:buscarDniPac'  %}" class="container-fluid prod-items auth-col">
                             {% csrf_token %}
                             <p>
                                 <label for="dni">DNI</>
@@ -32,7 +32,7 @@
                             </p>                                                                                                                                                           
                         </form>
 
-                        <form method="post" action="" class="container-fluid row auth-col">
+                        <form method="post" action="{% url 'nutriApp:buscarApellidoPac' %}" class="container-fluid row auth-col">
                             {% csrf_token %}
                             <p>
                                 <label for="apellido_p">Apellido paterno </label>
