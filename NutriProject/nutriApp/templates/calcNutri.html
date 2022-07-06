@@ -3,20 +3,23 @@
 <div id="content" class="site-content"><div id="primary" class="content-area width-normal">
     <main id="main" class="site-main">
         <div class="cont maincont">
-            <h1 class="maincont-ttl">Ver Diagnosticos por Paciente</h1>
+            <h1 class="maincont-ttl">Ver mis Pacientes</h1>
             <ul class="b-crumbs">
                 <li><a href="{% url 'nutriApp:index' %}">Inicio</a></li>
-                <li>Ver Diagnosticos</li>
+                <li>Ver mis pacientes</li>
             </ul>                                                <article class="page-cont">
             <div class="page-styling">
 
                 <div style="color:red; font-weight: bolder" role="alert">
                     {{error}}
-                  </div>
+                </div>
+                <div style="color: blue; font-weight: bolder" class="centrar-text" role="alert">
+                    {{success}}
+                </div>
                 <div class="auth-wrap page-styling">
                     <div class="container-fluid">
                         <!-- <h2>Buscar por DNI</h2> -->
-                        <form method="post" action={% url 'nutriApp:verDiagnosticos' %} class="container-fluid prod-items auth-col">
+                        <form method="post" action="{% url 'nutriApp:buscarDniPac'  %}" class="container-fluid prod-items auth-col">
                             {% csrf_token %}
                             <p>
                                 <label for="dni">DNI</>
@@ -28,15 +31,22 @@
                                 <input type="submit" value="🔍 &nbsp; Buscar ">
                             </p>                                                                                                                                                           
                         </form>
-                        <form method="post" action={% url 'nutriApp:registrarDiagnostico' %} class="container-fluid row auth-col">
+
+                        <form method="post" action="{% url 'nutriApp:buscarApellidoPac' %}" class="container-fluid row auth-col">
                             {% csrf_token %}
-                            <p>                                                                
-                                <input type="submit" value="🔍 &nbsp; Registrar nuevo Diagnóstico">
+                            <p>
+                                <label for="apellido_p">Apellido paterno </label>
+                                <input type="text" name="apellido_p" id="apellido_p" required placeholder="Busque por apellido paterno">
+                                <input type="submit" value="🔍 &nbsp; Buscar">
                             </p>                                                                                                                                                             
                         </form>
-                        <p>
-                            <label class="bold-text blue-color font-plus">Paciente: Renzo Camilo Torres. DNI 65820413</label>                                    
-                            </p>                                                                                                                                                                                  
+
+                        <form method="post" action="" class="container-fluid row auth-col">
+                            {% csrf_token %}
+                            <p>                                
+                                <input type="submit" value="🔍 &nbsp; Ver todos los pacientes">
+                            </p>                                                                                                                                                             
+                        </form>
                     </div>
 
                     <!-- TABLA DE PACIENTES -->
@@ -46,32 +56,32 @@
                                 <div class="wccm-th"></div>
                                 <div class="wccm-table-wrapper">
                                     <table class="wccm-table">
-                                        <tr>
+                                        <tr>                                           
                                             <td class="wccm-td">                                                
                                                 <div>
-                                                    <a href="#">Diagnostico</a>
+                                                    <a href="#">Apellido</a>
                                                 </div>
-                                                <div class="price">Código</div>
+                                                <div class="price">Paterno</div>
                                             </td>
                                             <td class="wccm-td">                                                
                                                 <div>
-                                                    <a href="#">Atención</a>
+                                                    <a href="#">Apellido</a>
                                                 </div>
-                                                <div class="price">Fecha</div>
+                                                <div class="price">Materno</div>
                                             </td>
                                             <td class="wccm-td">                                                
                                                 <div>
                                                     <a href="#"></a>
                                                 </div>
-                                                <div class="price">Profesional</div>
+                                                <div class="price">Nombre</div>
                                             </td>
-                                            <td class="wccm-td">                                                
+                                            <td class="wccm-td">                                            
                                                 <div>
                                                     <a href="#"></a>
                                                 </div>
                                                 <div class="price"></div>
                                             </td>
-                                            <td class="wccm-td">                                            
+                                            <td class="wccm-td">                                               
                                                 <div>
                                                     <a href="#"></a>
                                                 </div>
@@ -83,48 +93,22 @@
                             </div>
                         </div>
                         <div class="wccm-tbody">
+                            {% for pac in pacientes %}
                             <div class="wccm-tr">
-                                <div class="wccm-th">Item 1</div>
+                                <div class="wccm-th blue-color">DNI - {{pac.doc_identidad_pac}}</div>
                                 <div class="wccm-table-wrapper">
                                     <table class="wccm-table">
-                                        <tr>                                            
-                                            <td class="wccm-td"><p>0100</p></td>
-                                            <td class="wccm-td"><p>10/12/2021</p></td>
-                                            <td class="wccm-td"><p>Sofia Dueñas Arámbulo</p></td>
-                                            <td class="wccm-td"><p><a href="">Ver Diagnóstico</a></p></td>
+                                        <tr>                                                                                        
+                                            <td class="wccm-td"><p>{{pac.apellido_paterno}}</p></td>
+                                            <td class="wccm-td"><p>{{pac.apellido_materno}}</p></td>
+                                            <td class="wccm-td"><p>{{pac.nombre}}</p></td>                                            
+                                            <td class="wccm-td"><p><a href="{% url 'nutriApp:cargarPaciente' pac.doc_identidad_pac %}">Actualizar</a></p></td>
                                             <td class="wccm-td"><p><a href="#">Eliminar</a></p></td>
                                         </tr>
                                     </table>
                                 </div>
                             </div>
-                            <div class="wccm-tr">
-                                <div class="wccm-th">Item 2</div>
-                                <div class="wccm-table-wrapper">
-                                    <table class="wccm-table">
-                                        <tr>
-                                            <td class="wccm-td"><p>0120</p></td>
-                                            <td class="wccm-td"><p>04/02/2022</p></td>
-                                            <td class="wccm-td"><p>Liliana Vega Guillen</p></td>
-                                            <td class="wccm-td"><p><a href="">Ver Diagnóstico</a></p></td>
-                                            <td class="wccm-td"><p><a href="#">Eliminar</a></p></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="wccm-tr">
-                                <div class="wccm-th">Item 3</div>
-                                <div class="wccm-table-wrapper">
-                                    <table class="wccm-table">
-                                        <tr>
-                                            <td class="wccm-td"><p>0100</p></td>
-                                            <td class="wccm-td"><p>21/06/2022</p></td>
-                                            <td class="wccm-td"><p>Elizabeth Flores Urbano</p></td>
-                                            <td class="wccm-td"><p><a href="">Ver Diagnóstico</a></p></td>
-                                            <td class="wccm-td"><p><a href="#">Eliminar</a></p></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
 

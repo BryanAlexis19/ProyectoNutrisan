@@ -250,17 +250,8 @@ def buscarApellidoPac(request):
         return render(request, 'verPacientes.html', context)
     return render(request, 'verPacientes.html')
 
-#-----------VISTAS DEL DIAGNOSTICO-----------------
-def registrarDiagnostico(request):
-    return render(request, 'registrarDiagnostico.html')
 
-def actualizarDiagnostico(request):
-    return render(request, 'actualizarDiagnostico.html')
-
-def verDiagnosticos(request):
-    return render(request, 'verDiagnosticos.html')
-
-#-----------VISTAS DEL ALIMENTO-------------------
+#----------------------------VISTAS DEL ALIMENTO----------------------------
 def verAlimentos(request):
     return render(request, 'verAlimentos.html')
 
@@ -479,3 +470,17 @@ def buscarNombreAlim(request):
         return render(request, 'verAlimentos.html', context)
     return render(request, 'verAlimentos.html')
     
+#-----------VISTAS DEL DIAGNOSTICO-----------------
+def registrarDiagnostico(request):
+    return render(request, 'registrarDiagnostico.html')
+
+def actualizarDiagnostico(request):
+    return render(request, 'actualizarDiagnostico.html')
+
+def verDiagnosticos(request):
+    return render(request, 'verDiagnosticos.html')
+
+#---------------------VISTAS DE LA CALCULADORA---------------------
+
+def calcNutri(request):
+    return render(request, 'calcNutri.html')

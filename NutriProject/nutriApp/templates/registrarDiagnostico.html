@@ -5,7 +5,7 @@
         <div class="cont maincont">
             <h1 class="maincont-ttl">DIAGNÓSTICO NUTRICIONAL</h1>
             <ul class="b-crumbs">
-                <li><a href="{% url 'bikeshop:index' %}">Inicio</a></li>
+                <li><a href="{% url 'nutriApp:index' %}">Inicio</a></li>
                 <li>Registrar Diagnóstico Nutricional</li>
             </ul>                                                <article class="page-cont">
             <div class="page-styling">
@@ -16,7 +16,7 @@
                 <div class="auth-wrap">
                     <div class="container-fluid ">
                         
-                        <form method="post" action={% url 'bikeshop:registroCliente' %} class="container-fluid row prod-items prod-items-2">
+                        <form method="post" action="{% url 'nutriApp:registrarDiagnostico' %}" class="container-fluid row prod-items prod-items-2">
                             {% csrf_token %}
                             
                             <!-- DATOS DEL HISTORIAL NUTRICIONAL -->
