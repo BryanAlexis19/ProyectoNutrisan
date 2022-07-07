@@ -82,9 +82,12 @@
 }
 
 .centrar-text {
-  text-align: center;
+  text-align: center !important;
 }
 
+.left-text {
+  text-align: left !important;
+}
 .btn-style {
   -webkit-appearance: none;
   background: #f78b1f;
@@ -109,5 +112,36 @@
 
 .font-plus {
   font-size: 1.3em;
+}
+
+/* Nutrimatica styles */
+.cont-mine {
+  width: 100%;
+}
+
+.table input[type=text]{
+  -webkit-appearance: none !important;
+  border: none !important;
+  border-radius: none !important;
+  background: none !important;
+  padding: 0% !important;
+  color: #000 !important;
+  font-weight: bold !important;
+  height: auto;
+}
+
+.table th {
+  text-align: center !important;
+  padding: 1px 1px;
+  color: #3946bc;
+}
+
+.table th:nth-child(2){
+  width: 150px;
+}
+
+.table td {
+  text-align: center;
+  padding: 5px 5px;
 }
 

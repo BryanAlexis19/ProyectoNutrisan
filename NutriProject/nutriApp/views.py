@@ -483,4 +483,7 @@ def verDiagnosticos(request):
 #---------------------VISTAS DE LA CALCULADORA---------------------
 
 def calcNutri(request):
+    #lstAlimentos = []
+    #if request and request.method=="POST":
+
     return render(request, 'calcNutri.html')

@@ -1,126 +1,189 @@
-{% extends 'layout.html' %}
-{% block content %}
-<div id="content" class="site-content"><div id="primary" class="content-area width-normal">
+{% extends 'layout.html' %} {% block content %}
+<div id="content" class="site-content">
+  <div id="primary" class="content-area width-normal">
     <main id="main" class="site-main">
-        <div class="cont maincont">
-            <h1 class="maincont-ttl">Ver mis Pacientes</h1>
-            <ul class="b-crumbs">
-                <li><a href="{% url 'nutriApp:index' %}">Inicio</a></li>
-                <li>Ver mis pacientes</li>
-            </ul>                                                <article class="page-cont">
-            <div class="page-styling">
-
-                <div style="color:red; font-weight: bolder" role="alert">
-                    {{error}}
-                </div>
-                <div style="color: blue; font-weight: bolder" class="centrar-text" role="alert">
-                    {{success}}
-                </div>
-                <div class="auth-wrap page-styling">
-                    <div class="container-fluid">
-                        <!-- <h2>Buscar por DNI</h2> -->
-                        <form method="post" action="{% url 'nutriApp:buscarDniPac'  %}" class="container-fluid prod-items auth-col">
-                            {% csrf_token %}
-                            <p>
-                                <label for="dni">DNI</>
-                                <input type="text" name="dni" id="dni" maxlength="8"
-                                ondrop="return false;" onpaste="return false;" 
-                                onkeypress="return event.charCode>=48 && event.charCode<=57"
-                                placeholder="Busque por DNI"
-                                required>
-                                <input type="submit" value="🔍 &nbsp; Buscar ">
-                            </p>                                                                                                                                                           
-                        </form>
-
-                        <form method="post" action="{% url 'nutriApp:buscarApellidoPac' %}" class="container-fluid row auth-col">
-                            {% csrf_token %}
-                            <p>
-                                <label for="apellido_p">Apellido paterno </label>
-                                <input type="text" name="apellido_p" id="apellido_p" required placeholder="Busque por apellido paterno">
-                                <input type="submit" value="🔍 &nbsp; Buscar">
-                            </p>                                                                                                                                                             
-                        </form>
-
-                        <form method="post" action="" class="container-fluid row auth-col">
-                            {% csrf_token %}
-                            <p>                                
-                                <input type="submit" value="🔍 &nbsp; Ver todos los pacientes">
-                            </p>                                                                                                                                                             
-                        </form>
-                    </div>
-
-                    <!-- TABLA DE PACIENTES -->
-                    <div class="wccm-compare-table">
-                        <div class="wccm-thead">
-                            <div class="wccm-tr">
-                                <div class="wccm-th"></div>
-                                <div class="wccm-table-wrapper">
-                                    <table class="wccm-table">
-                                        <tr>                                           
-                                            <td class="wccm-td">                                                
-                                                <div>
-                                                    <a href="#">Apellido</a>
-                                                </div>
-                                                <div class="price">Paterno</div>
-                                            </td>
-                                            <td class="wccm-td">                                                
-                                                <div>
-                                                    <a href="#">Apellido</a>
-                                                </div>
-                                                <div class="price">Materno</div>
-                                            </td>
-                                            <td class="wccm-td">                                                
-                                                <div>
-                                                    <a href="#"></a>
-                                                </div>
-                                                <div class="price">Nombre</div>
-                                            </td>
-                                            <td class="wccm-td">                                            
-                                                <div>
-                                                    <a href="#"></a>
-                                                </div>
-                                                <div class="price"></div>
-                                            </td>
-                                            <td class="wccm-td">                                               
-                                                <div>
-                                                    <a href="#"></a>
-                                                </div>
-                                                <div class="price"></div>
-                                            </td>
-                                        <tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="wccm-tbody">
-                            {% for pac in pacientes %}
-                            <div class="wccm-tr">
-                                <div class="wccm-th blue-color">DNI - {{pac.doc_identidad_pac}}</div>
-                                <div class="wccm-table-wrapper">
-                                    <table class="wccm-table">
-                                        <tr>                                                                                        
-                                            <td class="wccm-td"><p>{{pac.apellido_paterno}}</p></td>
-                                            <td class="wccm-td"><p>{{pac.apellido_materno}}</p></td>
-                                            <td class="wccm-td"><p>{{pac.nombre}}</p></td>                                            
-                                            <td class="wccm-td"><p><a href="{% url 'nutriApp:cargarPaciente' pac.doc_identidad_pac %}">Actualizar</a></p></td>
-                                            <td class="wccm-td"><p><a href="#">Eliminar</a></p></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-
-                        <!-- BOTON REGRESAR -->
-                        <p class="auth-submit cf-sm-6 cf-md-6 cf-lg-6 col-xs-6 col-sm-6 col-md-6 col-lg-6 sectgl-item">
-                            <input type="submit" value="⬅️ &nbsp; Regresar">
-                        </p>
-                    </div>                   
-                </div>
+      <div class="cont maincont cont-mine">
+        <h1 class="maincont-ttl">Calculadora Nutricional</h1>
+        <ul class="b-crumbs">
+          <li><a href="{% url 'nutriApp:index' %}">Inicio</a></li>
+          <li>Calculadora Nutricional</li>
+        </ul>
+        <article class="page-cont">
+          <div class="page-styling">
+            <div style="color: red; font-weight: bolder" role="alert">
+              {{error}}
             </div>
+            <div
+              style="color: blue; font-weight: bolder"
+              class="centrar-text"
+              role="alert"
+            >
+              {{success}}
+            </div>
+            <div class="auth-wrap page-styling">
+              <div class="container-fluid">
+                <!-- <h2>Buscar por DNI</h2> -->
+                <form
+                  method="post"
+                  action="{% url 'nutriApp:buscarDniPac'  %}"
+                  class="container-fluid prod-items auth-col"
+                >
+                  {% csrf_token %}
+                  <p>
+                    <label for="dni">Codigo del Alimento</label>
+                    <input
+                      type="text"
+                      name="cod_ali"
+                      id="cod_ali"
+                      maxlength="6"
+                      ondrop="return false;"
+                      onpaste="return false;"                      
+                      placeholder="Busque por codigo"
+                      required
+                    />
+                    <input type="submit" value="🔍 &nbsp; Buscar " />
+                  </p>
+                </form>
+
+                <form
+                  method="post"
+                  action="{% url 'nutriApp:buscarApellidoPac' %}"
+                  class="container-fluid row auth-col"
+                >
+                  {% csrf_token %}
+                  <p>
+                    <label for="apellido_p">Apellido paterno </label>
+                    <input
+                      type="text"
+                      name="apellido_p"
+                      id="apellido_p"
+                      required
+                      placeholder="Busque por apellido paterno"
+                    />
+                    <input type="submit" value="🔍 &nbsp; Buscar" />
+                  </p>
+                </form>
+
+                <form
+                  method="post"
+                  action=""
+                  class="container-fluid row auth-col"
+                >
+                  {% csrf_token %}
+                  <p>
+                    <input
+                      type="submit"
+                      value="🔍 &nbsp; Ver todos los pacientes"
+                    />
+                  </p>
+                </form>
+              </div>
+
+              <!-- TABLA DE PACIENTES -->
+              <div class="wccm-compare-table">
+                <form>
+                    <table class="table"
+                    data-breakpoints='{"x-small": 480, "small": 768, "medium": 992, "large": 1200, "x-large": 1400 }'
+                    >
+                        <thead>
+                            <tr class="footable-header">                                
+                                <th data-breakpoints="xs" >Codigo</th >
+                                <th data-breakpoints="xs" >Nombre</th >
+                                <th data-breakpoints="xs" >Peso</th >
+                                <th data-breakpoints="xs" >Ene(kc)</th >
+                                <th data-breakpoints="xs" >Agua(g)</th >
+                                <th data-breakpoints="xs" >Prot(g)</th >
+                                <th data-breakpoints="xs" >Gras(g)</th >
+                                <th data-breakpoints="xs" >Carb(g)</th >
+                                <th data-breakpoints="xs" >Fibr(g)</th >
+                                <th data-breakpoints="xs" >Calc(g)</th >
+                                <th data-breakpoints="xs" >Fosf(g)</th >
+                                <th data-breakpoints="xs" >Zinc(g)</th >
+                                <th data-breakpoints="xs" >Hier(g)</th >
+                                <th data-breakpoints="xs" >Bcar(g)</th >
+                                <th data-breakpoints="xs" >ViA(µg)</th >
+                                <th data-breakpoints="xs" >Tia(mg)</th >
+                                <th data-breakpoints="xs" >Rib(mg)</th >
+                                <th data-breakpoints="xs" >Nia(mg)</th >
+                                <th data-breakpoints="xs" >ViC(mg)</th >
+                                <th data-breakpoints="xs" >AcF(µg)</th >
+                                <th data-breakpoints="xs" >Sod(mg)</th >
+                                <th data-breakpoints="xs" >Pot(mg)</th >
+                                <th data-breakpoints="xs"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" id="cod_ali" name="cod_ali"></td>
+                                <td><input type="text" id="nomb_ali" name="nomb_ali"></td>
+                                <td><input type="text" id="peso_ali" name="peso_ali"></td>
+                                <td>{{ene}}</td>
+                                <td>{{agua}}</td>
+                                <td>{{prot}}</td>
+                                <td>{{gras}}</td>
+                                <td>{{carb}}</td>
+                                <td>{{fibr}}</td>
+                                <td>{{calc}}</td>
+                                <td>{{fosf}}</td>
+                                <td>{{zinc}}</td>
+                                <td>{{hier}}</td>
+                                <td>{{bcar}}</td>
+                                <td>{{via}}</td>
+                                <td>{{tia}}</td>
+                                <td>{{rib}}</td>
+                                <td>{{nia}}</td>
+                                <td>{{vic}}</td>
+                                <td>{{acf}}</td>
+                                <td>{{sod}}</td>
+                                <td>{{pot}}</td>
+                                <td><a class="bold-text" href="#">X</a></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td colspan="3" class="centrar-text">
+                              <label for="" class="bold-text blue-color centrar-text">Subtotales</label>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                        </tfoot>
+                    </table>
+                </form>
+              </div>
+
+              <!-- BOTON REGRESAR -->
+              <p
+                class="auth-submit cf-sm-6 cf-md-6 cf-lg-6 col-xs-6 col-sm-6 col-md-6 col-lg-6 sectgl-item"
+              >
+                <input type="submit" value="⬅️ &nbsp; Regresar" />
+              </p>
+            </div>
+          </div>
         </article>
-        </div>
-    </main><!-- #main -->
-</div><!-- #primary -->    </div><!-- #content -->
+      </div>
+    </main>
+    <!-- #main -->
+  </div>
+</div>
+<!-- #primary -->
+
 {% endblock %}
