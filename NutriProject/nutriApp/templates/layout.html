@@ -69,8 +69,11 @@
                 <ul class="h-profile-links">                    
                     <li><a href="{% url 'nutriApp:logoutUsuario' %}">Cerrar Sesión</a></li>                    
                 </ul>
-            </li>    
-            Bienvenido(a): {{usuario.first_name}} {{usuario.last_name}}
+                
+            </li>
+            {% for key, value in request.session.cuser.items %}    
+            Bienvenido(a): {{value.user_firstName}} {{value.user_lastName}}
+            {% endfor %}
             <li class="h-menu-btn" id="h-menu-btn">
                 
                 <i class="ion-navicon"></i>

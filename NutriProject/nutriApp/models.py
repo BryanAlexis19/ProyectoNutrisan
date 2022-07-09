@@ -119,7 +119,7 @@ class Diagnostico(models.Model):
     file1 = CloudinaryField('Archivo 1', default='', blank=True, null=True)
 
     def __str__(self):
-        return self.paciente.apellido_paterno + " " + self.paciente.apellido_materno + " " + self.paciente.nombre + " " + self.fecha_registro.strftime('%d/%m/%Y')
+        return "DX0"+str(self.id) + "-"+ self.paciente.apellido_paterno + " " + self.paciente.apellido_materno + " " + self.paciente.nombre + "-" + self.fecha_registro.strftime('%d/%m/%Y')
 
 class Categoria_alimento(models.Model):
     nombre_categoria = models.CharField(max_length=50, null=False, blank=False)

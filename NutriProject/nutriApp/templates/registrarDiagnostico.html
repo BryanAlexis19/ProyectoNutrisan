@@ -10,9 +10,12 @@
             </ul>                                                <article class="page-cont">
             <div class="page-styling">
 
-                <div style="color:red; font-weight: bolder" role="alert">
+                <div style="color:red; font-weight: bolder" class="centrar-text" role="alert">
                     {{error}}
-                  </div>
+                </div>
+                <div style="color: blue; font-weight: bolder" class="centrar-text" role="alert">
+                    {{success}}
+                </div>
                 <div class="auth-wrap">
                     <div class="container-fluid ">
                         
@@ -24,24 +27,27 @@
                                 <h3 class="subtitle-wraper">Datos del historial nutricional</h3>
                                 <div class="prod-tab" id="prod-tab-2">
                                     <dl class="prod-tab-props">
+                                        <input type="hidden" value="{{paciente.doc_identidad_pac}}"
+                                        name="dni2" id="dni2" maxlength="8"
+                                        >                                        
+                                        <dt>Paciente:</dt>
+                                        <dd class="bold-text">{{paciente.apellido_paterno}} {{paciente.apellido_materno}} {{paciente.nombre}}</dd>
                                         <dt>Diagnóstico</dt>
-                                        <dd>0001</dd>
-                                        <dt >Paciente:</dt>
-                                        <dd  >Alavarado Perez, Jaime</dd>
+                                        <dd>0000</dd>
                                         <dt>Sexo</dt>
-                                        <dd>M</dd>
-                                        <dt>Edad</dt>
-                                        <dd>19 A</dd>
+                                        <dd>{{paciente.genero}}</dd>
+                                        <dt>Fecha nacim</dt>
+                                        <dd>{{paciente.fecha_nacimiento}}</dd>
                                         <dt>Fecha</dt>
-                                        <dd>19/06/2022</dd>
+                                        <dd>{{fecha}}</dd>
                                         <dt>Telefono</dt>
-                                        <dd>991746203</dd>
+                                        <dd>{{paciente.telefono}}</dd>
                                         <dt>Dirección</dt>
-                                        <dd>Calle las Lilas 195 - Los Olivos</dd>
+                                        <dd>{{paciente.domicilio}}</dd>
                                         <dt>Ocupación</dt>
-                                        <dd>Obrero</dd>
-                                        <dt>Profesional</dt>
-                                        <dd>Sofia Dueñas Arambulo</dd>
+                                        <dd>{{paciente.ocupacion}}</dd>
+                                        <dt>Nutricionista: </dt>
+                                        <dd>{{usuario.last_name}} {{usuario.first_name}}</dd>
                                     </dl>
                                 </div>
                                 
@@ -61,27 +67,31 @@
                                 <p class="cf-sm-6 cf-md-6 cf-lg-3 col-xs-6 col-sm-6 col-md-6 col-lg-3 sectgl-item sectgl-item">
                                     <label for="req_ener" class="bold-text">Energía(kcal)</label>
                                     <input type="text" name="req_ener" id="req_ener"
-                                    ondrop="return false;" onpaste="return false;" 
+                                    ondrop="return false;" onpaste="return false;"
+                                    value = "0" 
                                     onkeypress="return (event.charCode>=48 && event.charCode<=57) || event.charCode==46"
                                     >
                                 </p>
                                 <p class="cf-sm-6 cf-md-6 cf-lg-3 col-xs-6 col-sm-6 col-md-6 col-lg-3 sectgl-item sectgl-item">
                                     <label for="req_carboh" class="bold-text">Carbohidratos(gr)</label>
                                     <input type="text" name="req_carboh" id="req_carboh"
-                                    ondrop="return false;" onpaste="return false;" 
+                                    ondrop="return false;" onpaste="return false;"
+                                    value = "0" 
                                     onkeypress="return (event.charCode>=48 && event.charCode<=57) || event.charCode==46"
                                     >
                                 </p>
                                 <p class="cf-sm-6 cf-md-6 cf-lg-3 col-xs-6 col-sm-6 col-md-6 col-lg-3 sectgl-item sectgl-item">
                                     <label for="req_prot" class="bold-text">Proteínas(gr)</label>
                                     <input type="text" name="req_prot" id="req_prot"
-                                    ondrop="return false;" onpaste="return false;" 
+                                    ondrop="return false;" onpaste="return false;"
+                                    value = "0" 
                                     onkeypress="return (event.charCode>=48 && event.charCode<=57) || event.charCode==46">
                                 </p>
                                 <p class="cf-sm-6 cf-md-6 cf-lg-3 col-xs-6 col-sm-6 col-md-6 col-lg-3 sectgl-item sectgl-item">
                                     <label for="req_grasa" class="bold-text">Grasas(gr)</label>
                                     <input type="text" name="req_grasa" id="req_grasa"
                                     ondrop="return false;" onpaste="return false;" 
+                                    value = "0"
                                     onkeypress="return (event.charCode>=48 && event.charCode<=57) || event.charCode==46">
                                 </p>
                                 </div>
@@ -111,27 +121,31 @@
                                 <p class="cf-sm-6 cf-md-6 cf-lg-3 col-xs-6 col-sm-6 col-md-6 col-lg-3 sectgl-item sectgl-item">
                                     <label for="r24_ener" class="bold-text">Energía(kcal)</label>
                                     <input type="text" name="r24_ener" id="r24_ener"
-                                    ondrop="return false;" onpaste="return false;" 
+                                    ondrop="return false;" onpaste="return false;"
+                                    value = "0" 
                                     onkeypress="return (event.charCode>=48 && event.charCode<=57) || event.charCode==46"
                                     >
                                 </p>
                                 <p class="cf-sm-6 cf-md-6 cf-lg-3 col-xs-6 col-sm-6 col-md-6 col-lg-3 sectgl-item sectgl-item">
                                     <label for="r24_carboh" class="bold-text">Carbohidratos(gr)</label>
                                     <input type="text" name="r24_carboh" id="r24_carboh"
-                                    ondrop="return false;" onpaste="return false;" 
+                                    ondrop="return false;" onpaste="return false;"
+                                    value = "0" 
                                     onkeypress="return (event.charCode>=48 && event.charCode<=57) || event.charCode==46"
                                     >
                                 </p>
                                 <p class="cf-sm-6 cf-md-6 cf-lg-3 col-xs-6 col-sm-6 col-md-6 col-lg-3 sectgl-item sectgl-item">
                                     <label for="r24_prot" class="bold-text">Proteínas(gr)</label>
                                     <input type="text" name="r24_prot" id="r24_prot"
-                                    ondrop="return false;" onpaste="return false;" 
+                                    ondrop="return false;" onpaste="return false;"
+                                    value = "0" 
                                     onkeypress="return (event.charCode>=48 && event.charCode<=57) || event.charCode==46">
                                 </p>
                                 <p class="cf-sm-6 cf-md-6 cf-lg-3 col-xs-6 col-sm-6 col-md-6 col-lg-3 sectgl-item sectgl-item">
                                     <label for="r24_grasa" class="bold-text">Grasas(gr)</label>
                                     <input type="text" name="r24_grasa" id="r24_grasa"
-                                    ondrop="return false;" onpaste="return false;" 
+                                    ondrop="return false;" onpaste="return false;"
+                                    value = "0" 
                                     onkeypress="return (event.charCode>=48 && event.charCode<=57) || event.charCode==46">
                                 </p>
                                 </div>
