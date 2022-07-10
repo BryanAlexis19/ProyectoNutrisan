@@ -91,60 +91,39 @@
                     </ul>
                 </li> -->
                 <li class="menu-item-has-children">
-                    <a href="#">Calculos</a>
+                    <a href="#">Consulta Nutricional</a>
                     <ul class="sub-menu">
                         <li>
-                            <a href="{% url 'nutriApp:calcNutri' %}">Abrir Calculadora Nutricional</a>
-                        </li>                   
+                            <a href="{% url 'nutriApp:registrarDiagnostico' %}">Realizar nuevo Diagnóstico</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'nutriApp:verDiagnosticos' %}">Ver Diagnósticos</a>
+                        </li>                     
                     </ul>
                 </li>
                 <li class="menu-item-has-children">
-                    <a href="#">Mantenimiento</a>
+                    <a href="#">Pacientes</a>
                     <ul class="sub-menu">
                         <li>
                             <a href="{% url 'nutriApp:registrarPaciente' %}">Registrar nuevo Paciente</a>
                         </li>
                         <li>
-                            <a href="{% url 'nutriApp:registrarAlimento' %}">Registrar Alimento</a>
+                            <a href="{% url 'nutriApp:verTodoPacientes' %}">Ver mis Pacientes</a>
                         </li>
                     </ul>
                 </li>
                 <li class="menu-item-has-children">
-                    <a href="#">Utilitarios</a>
+                    <a href="#">Calculadora nutricional</a>
                     <ul class="sub-menu">
                         <li>
-                            <a href="#">Adjuntar Archivo a Diagnostico</a>
+                            <a href="{% url 'nutriApp:calcNutri' %}">Abrir Calculadora</a>
                         </li>
                         <li>
-                            <a href="#">Exportar Diagnostico a PDF</a>
-                        </li>  
-                        <li>
-                            <a href="#">Imprimir Diagnostico</a>
-                        </li>                   
-                    </ul>
-                </li>                
-                <li class="menu-item-has-children">
-                    <a href="#">Registro Nutricional</a>
-                    <ul class="sub-menu">
-                        <li>
-                            <a href="{% url 'nutriApp:registrarDiagnostico' %}">Realizar nuevo Diagnóstico</a>
-                        </li>                  
-                    </ul>
-                </li>
-                <li class="menu-item-has-children">
-                    <a href="#">Busquedas</a>
-                    <ul class="sub-menu">                        
-                        <li>
-                            <a href="{% url 'nutriApp:verDiagnosticos' %}">Ver Diagnosticos</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'nutriApp:verTodoPacientes' %}">Ver Pacientes</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'nutriApp:verTodoAlimentos' %}">Ver Alimentos</a>
+                            <a href="{% url 'nutriApp:verTodoAlimentos' %}">Ver alimentos</a>
                         </li>
                     </ul>
                 </li>
+                
             </ul>
         </nav>
 

@@ -220,7 +220,10 @@ def buscarApellidoPac(request):
     try:
         if request and request.method == 'POST':
             if 'apellido_p' in request.POST and request.POST['apellido_p'] != '':
-                objPaciente = Paciente.objects.filter(apellido_paterno=request.POST['apellido_p'])
+                #objPaciente = Paciente.objects.filter(apellido_paterno=request.POST['apellido_p'])
+                apePat = str(request.POST['apellido_p'])
+                objPaciente = Paciente.objects.raw('SELECT * FROM nutriApp_paciente where apellido_paterno = %s', [apePat])
+                #select * from tabla where nombre like '%" &  parametro & "%'
                 for pac in objPaciente:
                     lstPaciente.append(pac)
                 context = {
