@@ -1,11 +1,15 @@
 from datetime import datetime, date
+from django.http import HttpRequest
 from django.shortcuts import render, redirect
+from urllib3 import HTTPResponse
 from .models import Paciente, Trabajador, Diagnostico, Categoria_alimento, Alimento
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout, user_logged_out
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from .logedUser import logedUser
+from django.db.models import Q
+from django.db import connection
 
 
 #-------VARIABLES GLOBALES----------
@@ -17,17 +21,15 @@ def loginUsuario(request):
     if request.method == 'POST':
         dataUsuario = request.POST['usuario']
         dataClave = request.POST['clave']
-
         print(dataUsuario)
-
         loginUsuario = authenticate(request, username=dataUsuario, password=dataClave)
         if(loginUsuario):
             login(request, loginUsuario)
             objUsuario = User.objects.get(pk=loginUsuario.id)
             trab = Trabajador.objects.get(usuario=objUsuario)
             setLogin = logedUser(request)
-            setLogin.setUser(objUsuario, trab)                   
-            return render(request, 'index.html')
+            setLogin.setUser(objUsuario, trab)
+            return redirect('/index')
         else:
             context = {
                 'error': 'Usuario o contraseña incorrectos'
@@ -222,8 +224,11 @@ def buscarApellidoPac(request):
             if 'apellido_p' in request.POST and request.POST['apellido_p'] != '':
                 #objPaciente = Paciente.objects.filter(apellido_paterno=request.POST['apellido_p'])
                 apePat = str(request.POST['apellido_p'])
-                objPaciente = Paciente.objects.raw('SELECT * FROM nutriApp_paciente where apellido_paterno = %s', [apePat])
+                #objPaciente = Paciente.objects.raw('SELECT * FROM nutriApp_paciente where apellido_paterno = %s', [apePat])
                 #select * from tabla where nombre like '%" &  parametro & "%'
+                objPaciente = Paciente.objects.filter(Q(apellido_paterno__icontains=apePat))
+                print(objPaciente)
+                print(connection.queries)
                 for pac in objPaciente:
                     lstPaciente.append(pac)
                 context = {
@@ -462,9 +467,10 @@ def buscarNombreAlim(request):
         return render(request, 'verAlimentos.html', context)
     return render(request, 'verAlimentos.html')
     
-#-----------VISTAS DEL DIAGNOSTICO-----------------
+#--------------------------VISTAS DEL DIAGNOSTICO----------------------------------
 def registrarDiagnostico(request):
     lstDiagnosticos = []    
+    #Si el metodo post viene de la vista verDiagnosticos
     if request.method == 'POST' and 'dni' in request.POST and request.POST['dni'] != '':
         try:
             pac = Paciente.objects.get(doc_identidad_pac=request.POST['dni'])
@@ -486,6 +492,7 @@ def registrarDiagnostico(request):
                 'error': 'Paciente no registrado: ' + str(e)
             }
             return render(request, 'verDiagnosticos.html', context)
+    #Si el metodo post viene de la vista registrarDiagnostico
     elif request.method == 'POST' and 'dni2' in request.POST and request.POST['dni2'] != '':
         try:
         #Si el usuario esta logeado al sistema
@@ -511,8 +518,7 @@ def registrarDiagnostico(request):
                 dx.fc_analisis = request.POST['fc_analisis']
                 dx.recomendaciones = request.POST['recomendaciones']
                 dx.estado_registro = True
-                dx.file1 = ""
-                print("hola")
+                dx.file1 = ""                
                 dx.save(force_insert=True)
                 #Crear objeto con todos los diagnosticos y un mensaje de exito                
                 try:                                        
@@ -554,9 +560,100 @@ def registrarDiagnostico(request):
         
 
    
-
 def actualizarDiagnostico(request):
-    return render(request, 'actualizarDiagnostico.html')
+    lstDiagnosticos = [] 
+    if request.method == "POST" and 'dni2' in request.POST and request.POST != '' and request.user.id is not None:
+        pac = Paciente.objects.get(doc_identidad_pac=request.POST['dni2'])
+        if str(request.user.id) == request.POST['usuarioDx']:            
+            try:                
+                usuario = User.objects.get(pk=request.POST['usuarioDx'])
+                trab = Trabajador.objects.get(usuario=usuario)
+                dx = Diagnostico()
+                dx.id = request.POST['idDx']
+                dx.trabajador = trab
+                dx.paciente = pac
+                dx.estado_nutri = request.POST['estado_nut']
+                dx.req_ener = request.POST['req_ener']
+                dx.req_carboh = request.POST['req_carboh']
+                dx.req_prot = request.POST['req_prot']
+                dx.req_grasa = request.POST['req_grasa']
+                dx.tipo_patologia = request.POST['tipo_patologia']
+                dx.tipo_dieta = request.POST['tipo_dieta']
+                dx.r24_ener = request.POST['r24_ener']
+                dx.r24_carboh = request.POST['r24_carboh']
+                dx.r24_prot = request.POST['r24_prot']
+                dx.r24_grasa = request.POST['r24_grasa']
+                dx.r24_analisis = request.POST['r24_analisis']
+                dx.fc_analisis = request.POST['fc_analisis']
+                dx.recomendaciones = request.POST['recomendaciones']
+                now = datetime.now()
+                #nowStr = now.strftime("%Y-%m-%d %H:%M:%S")
+                print(now)
+                dx.fecha_registro= now
+                dx.estado_registro = True
+                dx.file1 = ""
+                dx.save(force_update=True)
+                try:                                        
+                    objDiagnostico = Diagnostico.objects.filter(paciente=pac)  
+                    for diag in objDiagnostico:
+                        diag.fecha_registro = diag.fecha_registro.strftime("%d/%m/%Y")
+                        lstDiagnosticos.append(diag)
+                        print(diag.trabajador)
+                    print("Cant dx => " + str(len(lstDiagnosticos)))
+                    if len(lstDiagnosticos) > 0:
+                        context = {
+                            'success': (f"Diagnostico {dx.id} registrado correctamente"),   
+                            'paciente' : pac,
+                            'diagnosticos': lstDiagnosticos
+                        }
+                        return render(request, 'verDiagnosticos.html', context)
+                    else:
+                        context = {
+                            'paciente' : pac,
+                            'error': (f"Paciente {pac.apellido_paterno} {pac.apellido_materno} no tiene diagnosticos registrados"),
+                        }                    
+                        return render(request, 'verDiagnosticos.html', context)
+                except Exception as e:
+                    context = {
+                        'error': (f"Paciente DNI {request.POST['dni']} no registrado"),
+                    }
+                    return render(request, 'verDiagnosticos.html', context)  
+            except Exception as e:
+                context = {
+                    'error': (f"Error al actualizar el diagnostico: {e}")
+                }
+                return render(request, 'verDiagnosticos.html', context)
+        else:
+            try:                                        
+                objDiagnostico = Diagnostico.objects.filter(paciente=pac)  
+                for diag in objDiagnostico:
+                    diag.fecha_registro = diag.fecha_registro.strftime("%d/%m/%Y")
+                    lstDiagnosticos.append(diag)
+                    print(diag.trabajador)
+                print("Cant dx => " + str(len(lstDiagnosticos)))
+                if len(lstDiagnosticos) > 0:
+                    context = {
+                        'error': (f"Permiso denegado, solo el propietario del diagnostico puede modificarlo!"),   
+                        'paciente' : pac,
+                        'diagnosticos': lstDiagnosticos
+                    }
+                    return render(request, 'verDiagnosticos.html', context)
+                else:
+                    context = {
+                        'paciente' : pac,
+                        'error': (f"Paciente {pac.apellido_paterno} {pac.apellido_materno} no tiene diagnosticos registrados"),
+                    }                    
+                    return render(request, 'verDiagnosticos.html', context)
+            except Exception as e:
+                context = {
+                    'error': (f"Paciente DNI {request.POST['dni']} no registrado"),
+                }
+                return render(request, 'verDiagnosticos.html', context)                         
+    else:
+        context = {
+            'success' : 'Para comenzar, busque el paciente'
+        }
+        return render(request, 'verDiagnosticos.html', context)
 
 def verDiagnosticos(request):
     lstDiagnosticos = []    
@@ -605,7 +702,33 @@ def verDiagnosticos(request):
         }
         return render(request, 'loginUsuario.html', context)
         
-
+def cargarDiagnostico(request, idDiagnostico):
+    if request.user.id is not None:
+        if idDiagnostico:
+            try:
+                objDiagnostico = Diagnostico.objects.get(pk=idDiagnostico)                
+                fecha = objDiagnostico.fecha_registro.strftime("%d/%m/%Y")
+                objPaciente = objDiagnostico.paciente
+                objTrabajador = objDiagnostico.trabajador
+                objUsuario = objTrabajador.usuario
+                objPaciente.fecha_nacimiento = objPaciente.fecha_nacimiento.strftime("%d/%m/%Y")                       
+                context = {
+                    'dx' : objDiagnostico,
+                    'paciente' : objPaciente,
+                    'usuario' : objUsuario,
+                    'fecha': fecha
+                }
+                return render(request, 'actualizarDiagnostico.html', context)
+            except Exception as e:
+                context = {
+                    'error': (f"Diagnostico {idDiagnostico} no encontrado"),
+                }
+                return render(request, 'verDiagnosticos.html', context)
+    else:
+        context = {
+            'error': 'Usuario no logeado'
+        }
+        return render(request, 'loginUsuario.html', context)                
 #---------------------VISTAS DE LA CALCULADORA---------------------
 
 def calcNutri(request):

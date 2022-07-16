@@ -24,8 +24,7 @@
                             {% if paciente %}
                             <p>
                                 <label for="dni">DNI</>
-                                <input type="text" name="dni" id="dni" maxlength="8" minlength="8"
-                                ondrop="return false;" onpaste="return false;" 
+                                <input type="text" name="dni" id="dni" maxlength="8" minlength="8"                                 
                                 onkeypress="return event.charCode>=48 && event.charCode<=57"
                                 placeholder="Busque por DNI"
                                 value = "{{paciente.doc_identidad_pac}}"
@@ -35,8 +34,7 @@
                             {% else %}
                             <p>
                                 <label for="dni">DNI</>
-                                <input type="text" name="dni" id="dni" maxlength="8" minlength="8"
-                                ondrop="return false;" onpaste="return false;" 
+                                <input type="text" name="dni" id="dni" maxlength="8" minlength="8"                                 
                                 onkeypress="return event.charCode>=48 && event.charCode<=57"
                                 placeholder="Busque por DNI"
                                 required>
@@ -118,7 +116,7 @@
                                             <td class="wccm-td"><p>{{dx.id}}</p></td>
                                             <td class="wccm-td"><p>{{dx.fecha_registro}}</p></td>
                                             <td class="wccm-td"><p>{{dx.trabajador}}</p></td>
-                                            <td class="wccm-td"><p><a href="">Ver Diagnóstico</a></p></td>
+                                            <td class="wccm-td"><p><a href="{% url 'nutriApp:cargarDiagnostico' dx.id %}">Ver Diagnóstico</a></p></td>
                                             <td class="wccm-td"><p><a href="#">Eliminar</a></p></td>
                                         </tr>
                                     </table>

@@ -37,6 +37,7 @@ urlpatterns = [
     path('registrarDiagnostico', views.registrarDiagnostico, name="registrarDiagnostico"),
     path('actualizarDiagnostico', views.actualizarDiagnostico, name="actualizarDiagnostico"),
     path('verDiagnosticos', views.verDiagnosticos, name="verDiagnosticos"),
+    path('cargarDiagnostico/<int:idDiagnostico>', views.cargarDiagnostico, name="cargarDiagnostico"),
 
     #----------------------------------------------------CALCULADORA NUTRICIONAL-------------------------------------
     path('calcNutri', views.calcNutri, name="calcNutri"),
