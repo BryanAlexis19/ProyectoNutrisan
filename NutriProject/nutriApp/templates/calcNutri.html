@@ -63,23 +63,64 @@
                     <input type="submit" value="🔍 &nbsp; Buscar" />
                   </p>
                 </form>
-
-                <form
-                  method="post"
-                  action=""
-                  class="container-fluid row auth-col"
-                >
-                  {% csrf_token %}
-                  <p>
-                    <input
-                      type="submit"
-                      value="🔍 &nbsp; Ver todos los pacientes"
-                    />
-                  </p>
-                </form>
               </div>
 
-              <!-- TABLA DE PACIENTES -->
+              <!-- TABLA DE ALIMENTOS -->
+              <div class="wccm-compare-table">
+                <div class="wccm-thead">
+                    <div class="wccm-tr">
+                        <div class="wccm-th"></div>
+                        <div class="wccm-table-wrapper">
+                            <table class="wccm-table">
+                                <tr>
+                                    <td class="wccm-td">                                                
+                                        <div>
+                                            <a href="#"></a>
+                                        </div>
+                                        <div class="price">Código</div>
+                                    </td>
+                                    <td class="wccm-td">                                                
+                                        <div>
+                                            <a href="#"></a>
+                                        </div>
+                                        <div class="price">Categoria</div>
+                                    </td>
+                                    <td class="wccm-td">                                                
+                                        <div>
+                                            <a href="#"></a>
+                                        </div>
+                                        <div class="price"></div>
+                                    </td>
+                                    <td class="wccm-td">                                            
+                                        <div>
+                                            <a href="#"></a>
+                                        </div>
+                                        <div class="price"></div>
+                                    </td>
+                                <tr>                                            
+                            </table>                                    
+                        </div>                                
+                    </div>                            
+                </div>                        
+                <div class="wccm-tbody">                            
+                    {% for ali in alimentos %}                            
+                    <div class="wccm-tr">
+                        <div class="wccm-th bold-text blue-color">{{ ali.nombre_alimento }}</div>
+                        <div class="wccm-table-wrapper">
+                            <table class="wccm-table">                                        
+                                    <tr>                                                                                       
+                                        <td class="wccm-td"><p>{{ ali.codigo_alimento }}</p></td>
+                                        <td class="wccm-td"><p>{{ ali.categoria_alimento }}</p></td>                                                
+                                        <td class="wccm-td"><p><a href="{% url 'nutriApp:agregarAlimentoListaCod' ali.codigo_alimento %}">Ver Alimento</a></p></td>                                        
+                                    </tr>                                                                                    
+                            </table>
+                        </div>
+                    </div>
+                    {% endfor %}                            
+                </div>
+            </div>
+
+              <!-- TABLA DE CALC NUTRI -->
               <div class="wccm-compare-table">
                 <form>
                     <table class="table"
@@ -141,9 +182,10 @@
                         </tbody>
                         <tfoot>
                           <tr>
-                            <td colspan="3" class="centrar-text">
+                            <td colspan="2" class="centrar-text">
                               <label for="" class="bold-text blue-color centrar-text">Subtotales</label>
                             </td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -171,11 +213,9 @@
               </div>
 
               <!-- BOTON REGRESAR -->
-              <p
-                class="auth-submit cf-sm-6 cf-md-6 cf-lg-6 col-xs-6 col-sm-6 col-md-6 col-lg-6 sectgl-item"
-              >
-                <input type="submit" value="⬅️ &nbsp; Regresar" />
-              </p>
+              <p class="auth-submit cf-sm-6 cf-md-6 cf-lg-6 col-xs-6 col-sm-6 col-md-6 col-lg-6 sectgl-item">                                                        
+                <button type="button" class="btn-style"><a href="{% url 'nutriApp:index' %}">⬅️</a>&nbsp;Regresar</button>
+            </p>
             </div>
           </div>
         </article>

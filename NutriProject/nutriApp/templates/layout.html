@@ -105,7 +105,10 @@
                             <a href="{% url 'nutriApp:registrarPaciente' %}">Registrar nuevo Paciente</a>
                         </li>
                         <li>
-                            <a href="{% url 'nutriApp:registrarAlimento' %}">Registrar Alimento</a>
+                            <a href="{% url 'nutriApp:verTodoPacientes' %}">Ver Pacientes</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'nutriApp:verTodoAlimentos' %}">Ver Alimentos</a>
                         </li>
                     </ul>
                 </li>
@@ -127,22 +130,16 @@
                     <a href="#">Registro Nutricional</a>
                     <ul class="sub-menu">
                         <li>
-                            <a href="{% url 'nutriApp:registrarDiagnostico' %}">Realizar nuevo Diagnóstico</a>
-                        </li>                  
+                            <a href="{% url 'nutriApp:registrarDiagnostico' %}">Ver y crear Diagnósticos</a>
+                        </li>                                          
                     </ul>
                 </li>
                 <li class="menu-item-has-children">
                     <a href="#">Busquedas</a>
                     <ul class="sub-menu">                        
                         <li>
-                            <a href="{% url 'nutriApp:verDiagnosticos' %}">Ver Diagnosticos</a>
-                        </li>
-                        <li>
                             <a href="{% url 'nutriApp:verTodoPacientes' %}">Ver Pacientes</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'nutriApp:verTodoAlimentos' %}">Ver Alimentos</a>
-                        </li>
+                        </li>                        
                     </ul>
                 </li>
             </ul>

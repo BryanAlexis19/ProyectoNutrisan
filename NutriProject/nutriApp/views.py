@@ -449,8 +449,10 @@ def buscarNombreAlim(request):
     try:    
         if request and request.method == 'POST':
             if 'nombre_alimento' in request.POST and request.POST['nombre_alimento'] != '':
-                objAlimento = Alimento.objects.get(nombre_alimento = request.POST['nombre_alimento'])            
-                lstAlimento.append(objAlimento)
+                nomb_ali = str(request.POST['nombre_alimento'])
+                objAlimento = Alimento.objects.filter(Q(nombre_alimento__icontains=nomb_ali))            
+                for ali in objAlimento:
+                    lstAlimento.append(ali)
                 context = {
                     'alimentos': lstAlimento
                 }
@@ -466,8 +468,110 @@ def buscarNombreAlim(request):
         }
         return render(request, 'verAlimentos.html', context)
     return render(request, 'verAlimentos.html')
-    
+
+#-----------------------------------------------------------------------------------
+#---------------------------------VISTAS DE LA CALCULADORA--------------------------
+#-----------------------------------------------------------------------------------
+
+lstCalcNutri = []
+subtotales = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+def calcNutri(request):
+    context = {
+        'lstAlimentoCalc': lstCalcNutri,
+    }
+    return render(request, 'calcNutri.html',context )
+
+def buscarCodigoAlimCalc(request):
+    lstAlimento = []
+    try:    
+        if request and request.method == 'POST':
+            if 'codigo_alimento' in request.POST and request.POST['codigo_alimento'] != '':
+                objAlimento = Alimento.objects.get(codigo_alimento = request.POST['codigo_alimento'])            
+                lstAlimento.append(objAlimento)
+                context = {
+                    'aliBuscado': lstAlimento
+                }
+                return render(request, 'calcNutri.html', context)
+            else:
+                context = {
+                    'error': (f"Alimento {request.POST['codigo_alimento']} no registrado")
+                }
+                return render(request, 'calcNutri.html', context)
+    except Exception as e:
+        context = {
+            'error': 'Alimento buscado no registrado : ' + str(e)
+        }
+        return render(request, 'calcNutri.html.html', context)
+    return render(request, 'calcNutri.html.html')
+
+def buscarNombreAlimCalc(request):
+    lstAlimento = []
+    try:    
+        if request and request.method == 'POST':
+            if 'nombre_alimento' in request.POST and request.POST['nombre_alimento'] != '':
+                nomb_ali = str(request.POST['nombre_alimento'])
+                objAlimento = Alimento.objects.filter(Q(nombre_alimento__icontains=nomb_ali))            
+                for ali in objAlimento:
+                    lstAlimento.append(ali)
+                context = {
+                    'aliBuscado': lstAlimento
+                }
+                return render(request, 'calcNutri.html', context)
+            else:
+                context = {
+                    'error': 'Alimento buscado no registrado'
+                }
+                return render(request, 'calcNutri.html', context)
+    except Exception as e:
+        context = {
+            'error': 'Alimento buscado no registrado : ' + str(e)
+        }
+        return render(request, 'calcNutri.html', context)
+    return render(request, 'calcNutri.html')
+
+def agregarAlimentoListaCod(request, cod_ali):
+    if request.user.id is not None:
+        try:
+            objAlimento = Alimento.objects.get(codigo_alimento=cod_ali)
+            lstCalcNutri.append(objAlimento)
+            
+        except Exception as e:
+            pass
+
+    else:
+        context = {
+            'error' : 'Usuario no logeado',
+        }
+        return render(request, 'login.html', context)
+
+def calcSubTotales(request, objalim, peso):
+    subtotales[0]: peso=+subtotales[0]
+    subtotales[1]: objalim.energ=+subtotales[1]
+    subtotales[2]: objalim.agua=+subtotales[2]
+    subtotales[3]: objalim.prot_t=+subtotales[3]
+    subtotales[4]: objalim.grasa_t=+subtotales[4]
+    subtotales[5]: objalim.carboh=+subtotales[5]
+    subtotales[6]: objalim.fib=+subtotales[6]
+    subtotales[7]: objalim.calc=+subtotales[7]
+    subtotales[8]: objalim.fosf=+subtotales[8]
+    subtotales[9]: objalim.zinc=+subtotales[9]
+    subtotales[10]: objalim.hier=+subtotales[10]
+    subtotales[11]: objalim.b_carot=+subtotales[11]
+    subtotales[12]: objalim.vit_a=+subtotales[12]
+    subtotales[13]: objalim.tiam=+subtotales[13]
+    subtotales[14]: objalim.ribo=+subtotales[14]
+    subtotales[15]: objalim.niac=+subtotales[15]
+    subtotales[16]: objalim.vit_c=+subtotales[16]
+    subtotales[17]: objalim.acid_fol=+subtotales[17]
+    subtotales[18]: objalim.sodio=+subtotales[18]
+    subtotales[19]: objalim.potas=+subtotales[19]
+
+
+
+#-----------------------------------------------------------------------------------    
 #--------------------------VISTAS DEL DIAGNOSTICO----------------------------------
+#-----------------------------------------------------------------------------------
 def registrarDiagnostico(request):
     lstDiagnosticos = []    
     #Si el metodo post viene de la vista verDiagnosticos
@@ -729,10 +833,3 @@ def cargarDiagnostico(request, idDiagnostico):
             'error': 'Usuario no logeado'
         }
         return render(request, 'loginUsuario.html', context)                
-#---------------------VISTAS DE LA CALCULADORA---------------------
-
-def calcNutri(request):
-    #lstAlimentos = []
-    #if request and request.method=="POST":
-
-    return render(request, 'calcNutri.html')
