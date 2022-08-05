@@ -880,7 +880,7 @@ def eliminarDiagnostico(request, idDiagnostico):
                     context = {
                         'success' : (f"Diagnostico {idDiagnostico} eliminado correctamente"),
                         'paciente': pacObj,
-                        'error': (f"Paciente {pac.apellido_paterno} {pac.apellido_materno} no tiene diagnosticos registrados"),
+                        'error': (f"Paciente {pacObj.apellido_paterno} {pacObj.apellido_materno} no tiene diagnosticos registrados"),
                     }                    
                     return render(request, 'verDiagnosticos.html', context)
             else:
