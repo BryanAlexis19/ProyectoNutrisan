@@ -103,7 +103,7 @@
                                             <td class="wccm-td"><p>{{pac.apellido_materno}}</p></td>
                                             <td class="wccm-td"><p>{{pac.nombre}}</p></td>                                            
                                             <td class="wccm-td"><p><a href="{% url 'nutriApp:cargarPaciente' pac.doc_identidad_pac %}">Actualizar</a></p></td>
-                                            <td class="wccm-td"><p><a href="#">Eliminar</a></p></td>
+                                            <td class="wccm-td"><p><a href="{% url 'nutriApp:eliminarPaciente' pac.doc_identidad_pac %}">Eliminar</a></p></td>
                                         </tr>
                                     </table>
                                 </div>

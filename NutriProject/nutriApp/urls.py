@@ -22,6 +22,7 @@ urlpatterns = [
     path('registrarPaciente', views.registrarPaciente, name="registrarPaciente"),    
     path('buscarDniPac', views.buscarDniPac, name="buscarDniPac"),
     path('buscarApellidoPac', views.buscarApellidoPac, name="buscarApellidoPac"),
+    path('eliminarPaciente/<str:dni>', views.eliminarPaciente, name="eliminarPaciente"),
         
     #----------------------------------------------------ALIMENTO---------------------------------------------------
     path('verAlimentos', views.verAlimentos, name="verAlimentos"),
@@ -38,6 +39,7 @@ urlpatterns = [
     path('actualizarDiagnostico', views.actualizarDiagnostico, name="actualizarDiagnostico"),
     path('verDiagnosticos', views.verDiagnosticos, name="verDiagnosticos"),
     path('cargarDiagnostico/<int:idDiagnostico>', views.cargarDiagnostico, name="cargarDiagnostico"),
+    path('eliminarDiagnostico/<int:idDiagnostico>', views.eliminarDiagnostico, name="eliminarDiagnostico"),
 
     #----------------------------------------------------CALCULADORA NUTRICIONAL-------------------------------------
     path('calcNutri', views.calcNutri, name="calcNutri"),

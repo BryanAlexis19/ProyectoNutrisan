@@ -247,6 +247,34 @@ def buscarApellidoPac(request):
         return render(request, 'verPacientes.html', context)
     return render(request, 'verPacientes.html')
 
+def eliminarPaciente(request,dni):
+    if(request.user.id is not None):
+        try:
+            if(dni is not None):            
+                objPaciente = Paciente.objects.get(doc_identidad_pac=dni)
+                objPaciente.delete()
+                context  = {
+                    'success' : f'Paciente {objPaciente.apellido_paterno} {objPaciente.nombre} ha sido eliminado correctamente',
+                    'pacientes' : Paciente.objects.all()
+                }
+                return render(request, 'verPacientes.html', context)
+            else:
+                context = { 'error': 'Dni de paciente inválido!',
+                            'pacientes': Paciente.objects.all()
+                        }
+                return render(request, 'verPacientes.html', context)
+        except Exception as e:
+            context = { 'error': 'Error al eliminar paciente: ' + str(e),
+                        'pacientes': Paciente.objects.all()
+                        }
+            return render(request, 'verPacientes.html', context)
+    else:
+        context = {
+            'error' : 'Usuario no ha iniciado sesión'
+        }
+        return render(request, 'loginUsuario.html',context)
+    
+
 
 #----------------------------VISTAS DEL ALIMENTO----------------------------
 def verAlimentos(request):
@@ -692,7 +720,6 @@ def actualizarDiagnostico(request):
                 dx.recomendaciones = request.POST['recomendaciones']
                 now = datetime.now()
                 #nowStr = now.strftime("%Y-%m-%d %H:%M:%S")
-                print(now)
                 dx.fecha_registro= now
                 dx.estado_registro = True
                 dx.file1 = ""
@@ -702,11 +729,9 @@ def actualizarDiagnostico(request):
                     for diag in objDiagnostico:
                         diag.fecha_registro = diag.fecha_registro.strftime("%d/%m/%Y")
                         lstDiagnosticos.append(diag)
-                        print(diag.trabajador)
-                    print("Cant dx => " + str(len(lstDiagnosticos)))
                     if len(lstDiagnosticos) > 0:
                         context = {
-                            'success': (f"Diagnostico {dx.id} registrado correctamente"),   
+                            'success': (f"Diagnostico {dx.id} actualizado correctamente"),   
                             'paciente' : pac,
                             'diagnosticos': lstDiagnosticos
                         }
@@ -732,9 +757,7 @@ def actualizarDiagnostico(request):
                 objDiagnostico = Diagnostico.objects.filter(paciente=pac)  
                 for diag in objDiagnostico:
                     diag.fecha_registro = diag.fecha_registro.strftime("%d/%m/%Y")
-                    lstDiagnosticos.append(diag)
-                    print(diag.trabajador)
-                print("Cant dx => " + str(len(lstDiagnosticos)))
+                    lstDiagnosticos.append(diag)                
                 if len(lstDiagnosticos) > 0:
                     context = {
                         'error': (f"Permiso denegado, solo el propietario del diagnostico puede modificarlo!"),   
@@ -769,9 +792,7 @@ def verDiagnosticos(request):
                     objDiagnostico = Diagnostico.objects.filter(paciente=objPaciente)  
                     for diag in objDiagnostico:
                         diag.fecha_registro = diag.fecha_registro.strftime("%d/%m/%Y")
-                        lstDiagnosticos.append(diag)
-                        print(diag.trabajador)
-                    print("Cant dx => " + str(len(lstDiagnosticos)))
+                        lstDiagnosticos.append(diag)                  
                     if len(lstDiagnosticos) > 0:
                         context = {
                             'paciente' : objPaciente,
@@ -786,7 +807,7 @@ def verDiagnosticos(request):
                         return render(request, 'verDiagnosticos.html', context)
                 except Exception as e:
                     context = {
-                        'error': (f"Paciente DNI {request.POST['dni']} no registrado"),
+                        'error': (f"Paciente DNI {request.POST['dni']} no registrado {e}"),
                     }
                     return render(request, 'verDiagnosticos.html', context)
             else:
@@ -794,7 +815,6 @@ def verDiagnosticos(request):
                     'error': 'Campo de busqueda de paciente vacio!'
                 }
                 return render(request, 'verDiagnosticos.html', context)
-
         else:
             context = {
                 'success' : "Para comenzar, busque el paciente."
@@ -833,3 +853,62 @@ def cargarDiagnostico(request, idDiagnostico):
             'error': 'Usuario no logeado'
         }
         return render(request, 'loginUsuario.html', context)                
+
+def eliminarDiagnostico(request, idDiagnostico):
+    lstDiagnosticos = []
+    if request.user.id is not None:
+        try:                        
+            objDiagnostico = Diagnostico.objects.get(pk=idDiagnostico)
+            trab = objDiagnostico.trabajador
+            usu = trab.usuario
+            pac = objDiagnostico.paciente.doc_identidad_pac
+            pacObj = objDiagnostico.paciente
+            if usu.id == request.user.id:                
+                objDiagnostico.delete()
+                Diagnosticos = Diagnostico.objects.filter(paciente=pac)
+                for diag in Diagnosticos:
+                    diag.fecha_registro = diag.fecha_registro.strftime("%d/%m/%Y")
+                    lstDiagnosticos.append(diag)
+                if len(lstDiagnosticos) > 0:
+                    context = { 
+                        'success' : (f"Diagnostico {idDiagnostico} eliminado correctamente"),
+                        'paciente': pacObj,
+                        'diagnosticos': lstDiagnosticos
+                    }
+                    return render(request, 'verDiagnosticos.html', context)
+                else:               
+                    context = {
+                        'success' : (f"Diagnostico {idDiagnostico} eliminado correctamente"),
+                        'paciente': pacObj,
+                        'error': (f"Paciente {pac.apellido_paterno} {pac.apellido_materno} no tiene diagnosticos registrados"),
+                    }                    
+                    return render(request, 'verDiagnosticos.html', context)
+            else:
+                Diagnosticos = Diagnostico.objects.filter(paciente=pac)
+                for diag in Diagnosticos:
+                    diag.fecha_registro = diag.fecha_registro.strftime("%d/%m/%Y")
+                    lstDiagnosticos.append(diag)
+                if len(lstDiagnosticos) > 0:
+                    context = { 
+                        'error': (f"Usuario {request.user.first_name} {request.user.last_name} no tiene permisos para eliminar el diagnostico {idDiagnostico}"),
+                        'paciente': pacObj,
+                        'diagnosticos': lstDiagnosticos
+                    }
+                    return render(request, 'verDiagnosticos.html', context)
+                else:               
+                    context = {                        
+                        'paciente': pac,
+                        'error': (f"Paciente {pacObj.apellido_paterno} {pacObj.apellido_materno} no tiene diagnosticos registrados"),
+                    }                    
+                    return render(request, 'verDiagnosticos.html', context)
+        except Exception as e:
+            context = {
+                'error' : 'Error al eliminar diagnostico + ' + str(e)
+            }
+            return render(request, 'verDiagnosticos.html', context)
+    else:
+        context = {
+            'error' : 'Usuario no ha iniciado sesión',
+        }
+        return render(request, 'loginUsuario.html', context)
+

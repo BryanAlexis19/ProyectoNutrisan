@@ -117,7 +117,7 @@
                                             <td class="wccm-td"><p>{{dx.fecha_registro}}</p></td>
                                             <td class="wccm-td"><p>{{dx.trabajador}}</p></td>
                                             <td class="wccm-td"><p><a href="{% url 'nutriApp:cargarDiagnostico' dx.id %}">Ver Diagnóstico</a></p></td>
-                                            <td class="wccm-td"><p><a href="#">Eliminar</a></p></td>
+                                            <td class="wccm-td"><p><a href="{% url 'nutriApp:eliminarDiagnostico' dx.id %}">Eliminar</a></p></td>
                                         </tr>
                                     </table>
                                 </div>
